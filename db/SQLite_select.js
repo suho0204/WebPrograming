@@ -38,3 +38,22 @@ app.get('/', (req, res) => {
             res.render('bookList', {data:rows});
         });
 });
+
+//도서 추가 폼 페이지
+app.get('/create',(req,res) => {
+    res.sendFile(path.join(__dirname,'../views/insertNewBook.html')); // 그대로 유지하거나 insertNewBook.ejs로 전환 가능
+});
+//도서 추가 처리
+app.post('/create', (req,res) => {
+    const {genre, name, writer, releasedate }= req.body;
+
+    const query = `INSERT INTO books (genre, name, writer, releasedate)  VALUES (?,?,?,?)`;
+
+    db.run(query, [genre, name, writer, releasedate], function (err) {
+        if (err) {
+            res.status(500).send('X INSERT 실패:' + err.message);
+            return;
+        }
+        res.redirect('/');
+    });
+});
