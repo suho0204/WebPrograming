@@ -1,0 +1,20 @@
+<form method="post" action="/modify/<%= data.number %>">
+    <fieldset>
+        <legend>Modify Data</legend>
+        <table>
+            <tr>
+                <td><label>genre</label></td>
+                <td><input type="text" name="genre" value="<%= data.genre %>" /></td>
+            </tr>
+            <tr>
+                <td><label>name</label></td>
+                <td><input type="text" name="name" value="<%= data.name %>"/></td>
+            </tr>
+            <tr>
+                <td><label>writer</label></td>
+                <td><input type="text" name="writer" value="<%= data.writer %>"/></td>
+            </tr>
+        </table>
+        <input type="submit">
+    </fieldset>
+</form>

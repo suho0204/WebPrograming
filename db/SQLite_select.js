@@ -57,3 +57,31 @@ app.post('/create', (req,res) => {
         res.redirect('/');
     });
 });
+
+// 수정 페이지 띄우기
+app.get('/modify/:id', (req, res) => {
+    const id = req.params.id;
+    db.get('SELECT * FROM books WHERE number=?', [id], (err, row) => {
+        if (err) return res.status(500).send('❌ 수정 데이터 불러오기 실패');
+        res.render('modify', { data: row }); // modify.ejs 로 렌더링
+    });
+});
+
+// 수정 처리
+app.post('/modify/:id', (req, res) => {
+    const id = req.params.id;
+    const { genre, name, writer } = req.body;
+    db.run('UPDATE books SET genre=?, name=?, writer=? WHERE number=?', [genre, name, writer, id], function (err) {
+        if (err) return res.status(500).send('❌ 수정 실패: ' + err.message);
+        res.redirect('/'); // 홈으로 리디렉션
+    });
+});
+
+//도서 삭제
+app.get('/delete/:id', (req,res) => {
+    const id = req.params.id;
+    db.run('DELETE FROM books WHERE number=?',[id],function (err) {
+        if (err) return res.status(500).send('X 삭제 실패:' + err.message);
+        res.redirect('/');
+    });
+});
